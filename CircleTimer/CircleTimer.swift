@@ -94,7 +94,9 @@ open class CircleTimer: UIView {
             update()
         }
     }
-    
+
+    var isRunning = false
+
     var filledLayer: CALayer? = nil
     
     var timerLayer: CALayer? = nil
@@ -187,6 +189,7 @@ open class CircleTimer: UIView {
             animation.duration = duration
             animation.fromValue = 1.0
             animation.toValue = 0.0
+            animation.delegate = self
             maskLayer.add(animation, forKey: "strokeEnd")
         }
         
@@ -220,6 +223,7 @@ open class CircleTimer: UIView {
             animation.duration = duration
             animation.fromValue = 0.0
             animation.toValue = 1.0
+            animation.delegate = self
             circleLayer.add(animation, forKey: "strokeEnd")
         }
         
@@ -247,3 +251,13 @@ open class CircleTimer: UIView {
     
     
 }
+
+extension CircleTimer: CAAnimationDelegate {
+    public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        isRunning = false
+    }
+    public func animationDidStart(_ anim: CAAnimation) {
+        isRunning = true
+    }
+}
+
